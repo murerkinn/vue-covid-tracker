@@ -3,7 +3,15 @@
     <div id="left">
       <div class="card-container">
         <ul>
-          <li class="card transition2" v-for="x in 3" :key="x"></li>
+          <li class="card transition2" v-for="x in 3" :key="x">
+            <Card>
+              <h3>Title</h3>
+              <div class="content">
+                <p>Cases</p>
+                <p>Total</p>
+              </div>
+            </Card>
+          </li>
         </ul>
       </div>
       <div class="map-container"></div>
@@ -13,8 +21,13 @@
 </template>
 
 <script>
+import Card from "./components/Card";
+
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    Card
+  }
 };
 </script>
 
