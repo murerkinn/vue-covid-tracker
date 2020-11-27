@@ -17,7 +17,8 @@ const mutations = {
 const actions = {
   SORT_DATA: "sortData",
   GET_COUNTRIES: "getCountries",
-  GET_COUNTRY_INFO: "getCountryInfo"
+  GET_COUNTRY_INFO: "getCountryInfo",
+  SET_CASES_TYPE: "setCasesType"
 };
 
 export default new Vuex.Store({
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     [mutations.SET_COUNTRY_INFO](state, info) {
       state.countryInfo = info;
+    },
+    [mutations.SET_CASES_TYPE](state, type) {
+      state.casesType = type;
     },
     [mutations.SET_MAP_CENTER](state, center) {
       state.mapCenter = center;
@@ -85,13 +89,16 @@ export default new Vuex.Store({
         .then(data => {
           commit(mutations.SET_COUNTRY_INFO, data);
           if (countryCode !== "worldwide") {
-            commit(mutations.SET_MAP_CENTER, {
-              lat: data.countryInfo.lat,
-              lng: data.countryInfo.long
-            });
+            commit(mutations.SET_MAP_CENTER, [
+              data.countryInfo.lat,
+              data.countryInfo.long
+            ]);
             commit(mutations.SET_MAP_ZOOM, 4);
           }
         });
+    },
+    [actions.SET_CASES_TYPE]({ commit }, type) {
+      commit(mutations.SET_CASES_TYPE, type);
     }
   },
   modules: {}
