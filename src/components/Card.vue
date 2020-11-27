@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="374">
+  <v-card class="mx-auto">
     <v-card-title>{{ title }}</v-card-title>
 
     <v-card-text>
@@ -21,6 +21,15 @@
         </v-badge>
       </div>
     </v-card-text>
+    <v-card-actions>
+      <v-btn
+        color="deep-purple lighten-2"
+        text
+        @click="$emit('change-case-type')"
+      >
+        Show On Map
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 

@@ -11,14 +11,16 @@ const mutations = {
   SET_COUNTRY_INFO: "setCountryInfo",
   SET_CASES_TYPE: "setCasesType",
   SET_MAP_CENTER: "setMapCenter",
-  SET_MAP_ZOOM: "setMapZoom"
+  SET_MAP_ZOOM: "setMapZoom",
+  SET_SPARKLINE_DATA: "setSparklineData"
 };
 
 const actions = {
   SORT_DATA: "sortData",
   GET_COUNTRIES: "getCountries",
   GET_COUNTRY_INFO: "getCountryInfo",
-  SET_CASES_TYPE: "setCasesType"
+  SET_CASES_TYPE: "setCasesType",
+  GET_SPARKLINE_DATA: "getSparklineData"
 };
 
 export default new Vuex.Store({
@@ -30,7 +32,8 @@ export default new Vuex.Store({
     countryInfo: {},
     casesType: "cases",
     mapCenter: { lat: 34.80746, lng: -40.4796 },
-    mapZoom: 3
+    mapZoom: 3,
+    sparklineData: []
   },
   mutations: {
     [mutations.SET_COUNTRIES](state, countries) {
@@ -56,6 +59,9 @@ export default new Vuex.Store({
     },
     [mutations.SET_MAP_ZOOM](state, zoom) {
       state.mapZoom = zoom;
+    },
+    [mutations.SET_SPARKLINE_DATA](state, data) {
+      state.sparklineData = data;
     }
   },
   actions: {
@@ -95,6 +101,14 @@ export default new Vuex.Store({
             ]);
             commit(mutations.SET_MAP_ZOOM, 4);
           }
+        });
+    },
+    async [actions.GET_SPARKLINE_DATA]({ commit }) {
+      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          commit(mutations.SET_SPARKLINE_DATA, data);
         });
     },
     [actions.SET_CASES_TYPE]({ commit }, type) {
