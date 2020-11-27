@@ -33,11 +33,11 @@ export default {
       required: true
     },
     daily: {
-      type: Number,
+      type: String,
       required: true
     },
     total: {
-      type: Number,
+      type: String,
       required: true
     }
   }

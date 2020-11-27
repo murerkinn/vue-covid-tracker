@@ -75,19 +75,22 @@ export default new Vuex.Store({
         });
     },
     async [actions.GET_COUNTRY_INFO]({ commit }, countryCode) {
+      const base = "https://disease.sh/v3/covid-19";
       const url =
         countryCode === "worldwide"
-          ? "https://disease.sh/v3/covid-19/all"
-          : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+          ? `${base}/all`
+          : `${base}/countries/${countryCode}`;
       await fetch(url)
         .then(response => response.json())
         .then(data => {
           commit(mutations.SET_COUNTRY_INFO, data);
-          commit(mutations.SET_MAP_CENTER, [
-            data.countryInfo.lat,
-            data.countryInfo.long
-          ]);
-          commit(mutations.SET_MAP_ZOOM, 4);
+          if (countryCode !== "worldwide") {
+            commit(mutations.SET_MAP_CENTER, {
+              lat: data.countryInfo.lat,
+              lng: data.countryInfo.long
+            });
+            commit(mutations.SET_MAP_ZOOM, 4);
+          }
         });
     }
   },

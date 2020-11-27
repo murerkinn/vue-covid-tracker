@@ -6,27 +6,38 @@
           <v-col lg="9" md="8" sm="12">
             <v-row>
               <v-col>
-                <Card title="Cases" :daily="12345" :total="98765" />
+                <Card
+                  title="Cases"
+                  :daily="`${countryInfo.todayCases}`"
+                  :total="`${countryInfo.cases}`"
+                />
               </v-col>
               <v-col>
-                <Card title="Recovered" :daily="12345" :total="98765" />
+                <Card
+                  title="Recovered"
+                  :daily="`${countryInfo.todayRecovered}`"
+                  :total="`${countryInfo.recovered}`"
+                />
               </v-col>
               <v-col>
-                <Card title="Death" :daily="12345" :total="98765" />
+                <Card
+                  title="Death"
+                  :daily="`${countryInfo.todayDeaths}`"
+                  :total="`${countryInfo.deaths}`"
+                />
               </v-col>
             </v-row>
           </v-col>
           <v-col lg="3" md="4" sm="12">
-            <v-card outlined>
+            <v-card outlined class="px-4 pb-2">
               <v-select
                 v-model="country"
-                :items="countries"
+                :items="['worldwide', ...countries]"
                 item-text="name"
                 item-value="value"
                 menu-props="auto"
                 label="Select"
                 hide-details
-                prepend-icon="fa-map"
                 single-line
               ></v-select>
             </v-card>
@@ -47,12 +58,11 @@ export default {
     country: "worldwide"
   }),
   computed: {
-    ...mapState(["countries"])
+    ...mapState(["countries", "countryInfo"])
   },
   watch: {
-    country() {
-      console.log("country changed to: ", this.country);
-      this.getCountryInfo(this.country);
+    country: function(val) {
+      this.getCountryInfo(val);
     }
   },
   components: {
@@ -63,6 +73,7 @@ export default {
   },
   created() {
     this.getCountries();
+    this.getCountryInfo(this.country);
   }
 };
 </script>
