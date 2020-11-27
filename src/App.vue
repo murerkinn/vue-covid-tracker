@@ -1,109 +1,68 @@
 <template>
-  <div id="app">
-    <div id="left">
-      <div class="card-container">
-        <ul>
-          <li class="card transition2" v-for="x in 3" :key="x">
-            <Card>
-              <h3>Title</h3>
-              <div class="content">
-                <p>Cases</p>
-                <p>Total</p>
-              </div>
-            </Card>
-          </li>
-        </ul>
-      </div>
-      <div class="map-container"></div>
-    </div>
-    <div id="right"></div>
-  </div>
+  <v-app>
+    <v-main>
+      <v-container>
+        <v-row justify="center">
+          <v-col lg="9" md="8" sm="12">
+            <v-row>
+              <v-col>
+                <Card title="Cases" :daily="12345" :total="98765" />
+              </v-col>
+              <v-col>
+                <Card title="Recovered" :daily="12345" :total="98765" />
+              </v-col>
+              <v-col>
+                <Card title="Death" :daily="12345" :total="98765" />
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col lg="3" md="4" sm="12">
+            <v-card outlined>
+              <v-select
+                v-model="country"
+                :items="countries"
+                item-text="name"
+                item-value="value"
+                menu-props="auto"
+                label="Select"
+                hide-details
+                prepend-icon="fa-map"
+                single-line
+              ></v-select>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import Card from "./components/Card";
 
 export default {
   name: "App",
+  data: () => ({
+    country: "worldwide"
+  }),
+  computed: {
+    ...mapState(["countries"])
+  },
+  watch: {
+    country() {
+      console.log("country changed to: ", this.country);
+      this.getCountryInfo(this.country);
+    }
+  },
   components: {
     Card
+  },
+  methods: {
+    ...mapActions(["getCountries", "getCountryInfo"])
+  },
+  created() {
+    this.getCountries();
   }
 };
 </script>
-
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
-
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: "Poppins", sans-serif;
-}
-
-div {
-  text-align: center;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-#app {
-  height: 100vh;
-  display: flex;
-}
-
-#left {
-  padding: 1em;
-  flex: 0.8;
-}
-
-#right {
-  flex: 0.2;
-}
-
-.card-container .card {
-  background-color: blue;
-  padding: 2em;
-  border-radius: 0.4em;
-  margin-bottom: 1em;
-}
-
-.map-container {
-  border-radius: 0.4em;
-}
-
-@media only screen and (min-width: 800px) {
-  .card-container {
-    padding: 3em 6em;
-  }
-
-  .card-container ul {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    grid-gap: 2em;
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  #app {
-    flex-direction: column;
-  }
-
-  #left,
-  #right {
-    flex: unset;
-  }
-}
-</style>
