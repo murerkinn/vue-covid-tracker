@@ -35,6 +35,9 @@ export default new Vuex.Store({
     [mutations.SET_COUNTRIES](state, countries) {
       state.countries = countries;
     },
+    [mutations.SET_MAP_COUNTRIES](state, mapCountries) {
+      state.mapCountries = mapCountries;
+    },
     [mutations.SET_TABLE_DATA](state, data) {
       state.tableData = data;
     },
@@ -43,6 +46,12 @@ export default new Vuex.Store({
     },
     [mutations.SET_COUNTRY_INFO](state, info) {
       state.countryInfo = info;
+    },
+    [mutations.SET_MAP_CENTER](state, center) {
+      state.mapCenter = center;
+    },
+    [mutations.SET_MAP_ZOOM](state, zoom) {
+      state.mapZoom = zoom;
     }
   },
   actions: {
