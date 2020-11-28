@@ -91,6 +91,16 @@
                         :auto-line-width="false"
                         auto-draw
                       ></v-sparkline>
+                      <v-row class="text-center">
+                        <v-col
+                          v-for="item in ['cases', 'recovered', 'deaths']"
+                          :key="item"
+                        >
+                          <v-btn small @click="changeSparkline(item)">
+                            {{ item.toUpperCase() }}
+                          </v-btn>
+                        </v-col>
+                      </v-row>
                     </v-card>
                   </v-tab-item>
                 </v-tabs-items>
@@ -175,11 +185,16 @@ export default {
     ]),
     setCountryVal(val) {
       this.country = val;
+    },
+    changeSparkline(caseType) {
+      this.setCasesType(caseType);
+      this.getSparklineData();
     }
   },
   created() {
     this.getCountries();
     this.getCountryInfo(this.country);
+    this.getSparklineData();
   }
 };
 </script>

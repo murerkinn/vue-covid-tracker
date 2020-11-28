@@ -103,12 +103,14 @@ export default new Vuex.Store({
           }
         });
     },
-    async [actions.GET_SPARKLINE_DATA]({ commit }) {
+    async [actions.GET_SPARKLINE_DATA]({ state, commit }) {
       await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
         .then(response => response.json())
         .then(data => {
-          console.log(data);
-          commit(mutations.SET_SPARKLINE_DATA, data);
+          commit(
+            mutations.SET_SPARKLINE_DATA,
+            Object.values(data[state.casesType])
+          );
         });
     },
     [actions.SET_CASES_TYPE]({ commit }, type) {
