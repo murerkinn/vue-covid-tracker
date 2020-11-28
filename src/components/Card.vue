@@ -8,7 +8,7 @@
           <template v-slot:badge>
             <v-icon small class="deep-purple--text darken-4">fa-virus</v-icon>
           </template>
-          <h2>{{ daily }}</h2>
+          <h2>Daily: {{ daily }}</h2>
         </v-badge>
       </div>
 
@@ -17,7 +17,7 @@
           <template v-slot:badge>
             <v-icon small class="red--text darken-4">fa-viruses</v-icon>
           </template>
-          <h2>{{ total }}</h2>
+          <h2>Total: {{ total }}</h2>
         </v-badge>
       </div>
     </v-card-text>
